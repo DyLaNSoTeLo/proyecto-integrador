@@ -24,15 +24,11 @@ if __name__=="__main__":
     borrar_terminal() 
 
 def limpiar_pantalla():
-
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def print_mapa(mapa):
-    
     limpiar_pantalla()
-
     for row in mapa:
-
         print(''.join(row))
 
 
@@ -40,51 +36,34 @@ def main_loop(mapa, start, end):
     px, py = start
 
     while (px, py) != end:
-
         mapa[py][px] = "P"
-
         print_mapa(mapa)
-
         mapa[py][px] = '.'
-    
         
         key = readchar.readkey()
         
         if key == readchar.key.UP:
-
             new_py = py - 1
-
             if new_py >= 0 and mapa[new_py][px] != '#':
-
                 py = new_py
-
         elif key == readchar.key.DOWN:
-
             new_py = py + 1
-
             if new_py < len(mapa) and mapa[new_py][px] != '#':
-
                 py = new_py
 
         elif key == readchar.key.LEFT:
-
             new_px = px - 1
-
             if new_px >= 0 and mapa[py][new_px] != '#':
-
                 px = new_px
-
+                
         elif key == readchar.key.RIGHT:
-
             new_px = px + 1
-
             if new_px < len(mapa[py]) and mapa[py][new_px] != '#':
-
                 px = new_px
                 
     mapa[py][px] = "P"
 
-    print_mapa(mapa)        
+    print_mapa(mapa)       
     print("Fin del juego!!")
                
 def parse_laberinto(labe_string):
@@ -116,26 +95,20 @@ def convert_labe_to_matrix(end):
 #...........#.#.....#
 ###################..
 """
+
     labe_string = labe_string.replace("end", str(end[0]) + ", " + str(end[1]))
-
     labe_string = labe_string.strip()
-
     return parse_laberinto(labe_string)
 
  
 
 def main():
-
+    
     start = (0, 0)
-
     end = (20, 20)
-
     maze = convert_labe_to_matrix(end)
-
     main_loop(maze, start, end)
 
- 
 
 if __name__ == "__main__":
-
     main()
