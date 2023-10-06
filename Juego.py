@@ -1,4 +1,4 @@
-import os,random, readchar
+import os, random, readchar
 from dataclasses import dataclass
 from readchar import key
 
@@ -21,72 +21,77 @@ def borrar_terminal():
             numveces=numveces+1
             print(numveces)
             
-if __name__=="__main__":
-    borrar_terminal() 
-
-def limpiar_pantalla():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-
+def leer_mapa(proyecto-integrador\mapas):
+    with open(proyecto-integrador\mapas, 'r') as archivo:
+        mapa = [list(linea.strip()) for linea in proyecto-integrador\mapas]
+    return mapa
+            
 @dataclass
 class Juego:
-    laberinto: str
-    pos_inicial: int
-    pos_final: int
+    nombre: str
+    mapa: list = None
+    pos_inicial: tuple = None
+    pos_final: tuple = None
+    
+    
+    def limpiar_pantalla(self):
+        os.system('cls' if os.name == 'nt' else 'clear')
 
-    def mover(self, new_px, new_py):
-        
-        def print_mapa(mapa):
-            limpiar_pantalla()
-            for row in mapa:
-                print(''.join(row))
+    def print_mapa(self):
+        self.limpiar_pantalla()
+        for row in self.mapa:
+            print(''.join(row))
 
-        def main_loop(mapa, start, end):
-            px, py = start
+    def main_loop(self):
+        px, py = self.pos_inicial
 
-            while (px, py) != end:
-            mapa[py][px] = "P"
-            print_mapa(mapa)
-            mapa[py][px] = '.'
+        while (px, py) != self.pos_final:
+            self.mapa[py][px] = "P"
+            self.print_mapa()
+            self.mapa[py][px] = '.'
+            px, py = self.mover(px, py)
+            print("Fin del juego!!")
+            print(f'Lo lograste!! {self.nombre},\n Felicidades eres el Ganador')
+
+    def mover(self, px, py):
+        new_px, new_py = px, py
         
         key = readchar.readkey()
         
         if key == readchar.key.UP:
             new_py = py - 1
-            if new_py >= 0 and mapa[new_py][px] != '#':
-                py = new_py
+        if new_py >= 0 and self.mapa[new_py][px] != '#':
+            py = new_py
+            
         elif key == readchar.key.DOWN:
             new_py = py + 1
-            if new_py < len(mapa) and mapa[new_py][px] != '#':
-                py = new_py
+        if new_py < len(self.mapa) and self.mapa[new_py][px] != '#':
+            py = new_py
 
         elif key == readchar.key.LEFT:
             new_px = px - 1
-            if new_px >= 0 and mapa[py][new_px] != '#':
-                px = new_px
+        if new_px >= 0 and self.mapa[py][new_px] != '#':
+            px = new_px
                 
         elif key == readchar.key.RIGHT:
             new_px = px + 1
-            if new_px < len(mapa[py]) and mapa[py][new_px] != '#':
-                px = new_px
+        if new_px < len(self.mapa[py]) and self.mapa[py][new_px] != '#':
+            px = new_px
                 
-    mapa[py][px] = "P"
+        return px, py
 
-    print_mapa(mapa)       
-    print("Fin del juego!!")
+          
+def main():
+    nombre= input("Introduzca su nombre: ")
+    print("!Bienvenido a esta nueva aventura, {}!".format(nombre))
     
+    mapa = leer_mapa('nombre_del_archivo.txt') 
+    pos_inicial = (0, 0)  
+    pos_final = (0, 0)
+    
+    juego = Juego(nombre, mapa, pos_inicial, pos_final)
+    
+    juego.main_loop()
 
-        def main():
-
-            start = (0, 0)
-            end = (20, 20)
-            maze = convert_labe_to_matrix(end)
-            main_loop(maze, start, end)
-
-        
-
-        if __name__ == "__main__":
-
-            main()
-            
-        print(f'Lo lograste!! {self.nombre},\n Felicidades eres el Ganador')
+if __name__ == "__main__":
+    main()
