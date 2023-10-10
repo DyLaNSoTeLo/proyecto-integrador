@@ -5,7 +5,7 @@ from typing import List
 
 def leer_mapa(ruta: str):
     with open(ruta, 'r', encoding='utf-8') as archivo:
-        mapa = archivo.readlines()
+        mapa = [list(linea.rstrip()) for linea in archivo]
     return mapa
 
 @dataclass
@@ -63,10 +63,10 @@ def main():
     nombre= input("Introduzca su nombre: ")
     print("!Bienvenido a esta nueva aventura, {}!".format(nombre))
     
-    lista_mapas = os.listdir("mapas/map1.txt")
+    lista_mapas = os.listdir("proyecto-integrador/mapas/")
     ruta_mapa = random.choice(lista_mapas)
     
-    mapa = leer_mapa("mapas/"+ruta_mapa)
+    mapa = leer_mapa("proyecto-integrador/mapas/"+ruta_mapa)
     
     pos_inicial = (0, 0)  
     pos_final = (20, 20)
