@@ -5,6 +5,7 @@ from typing import List
 
 def leer_mapa(ruta: str):
     with open(ruta, 'r', encoding='utf-8') as archivo:
+        next(archivo) 
         mapa = [list(linea.rstrip()) for linea in archivo]
     return mapa
 
@@ -31,7 +32,7 @@ class Juego:
             self.mapa[py][px] = '.'
             px, py = self.mover(px, py)
         print("Fin del juego!!")
-        print(f'Lo lograste!! {self.nombre},\n Felicidades eres el Ganador')
+        print(f'Lo lograste!! {self.nombre},\nFelicidades eres el Ganador')
             
     def mover(self, px, py):
         new_px, new_py = px, py
@@ -67,9 +68,8 @@ def main():
     ruta_mapa = random.choice(lista_mapas)
     
     mapa = leer_mapa("proyecto-integrador/mapas/"+ruta_mapa)
-    
-    pos_inicial = (0, 0)  
-    pos_final = (20, 20)
+    pos_inicial = (1, 1)  
+    pos_final = (19, 20)
     
     juego = Juego(nombre, mapa, pos_inicial, pos_final)
     
